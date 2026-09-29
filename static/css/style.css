@@ -66,7 +66,176 @@ body {
   line-height: 1.55;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              background-image 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.6s ease;
 }
+
+/* Page-Wide Smooth Surface Atmosphere Transitions */
+.site-header,
+.hero-feature-card,
+.scenario-card,
+.scenery-caption,
+.pixel-scenery-frame,
+.chat-console-card,
+.chat-console-header,
+.chat-quick-prompts-bar,
+.grc-pillar-card,
+.frameworks-reference-box,
+.framework-card,
+.stage-card,
+.companion-bubble,
+.briefing-dialog .dialog-content,
+.report-dialog .dialog-content,
+.barnaby-intro-modal .dialog-content,
+.quick-prompt-chip,
+.msg-bubble {
+  transition: background-color 0.7s ease,
+              border-color 0.7s ease,
+              box-shadow 0.7s ease,
+              color 0.5s ease;
+}
+
+/* =========================================================
+   🌅 FULL-PAGE SUNSET ATMOSPHERE (Golden Hour & Warm Peach Dusk)
+   ========================================================= */
+body.theme-sunset {
+  --bg-sage: #eedacb;
+  --bg-sage-light: #faeee4;
+  --bg-sage-dark: #d8bda7;
+  --card-cream: #fffaf5;
+  --card-cream-dark: #f6ebdf;
+  --text-primary: #3b2419;
+  --text-secondary: #6e493a;
+  --text-muted: #916858;
+  --coral-btn: #e06c4a;
+  --coral-btn-hover: #c95634;
+  --coral-btn-active: #b14424;
+  --pill-bg: #f5e4d7;
+  --pill-border: #debfa9;
+  --border-light: #ebd6c6;
+
+  background-color: var(--bg-sage);
+  background-image: 
+    radial-gradient(circle at 18% 18%, rgba(255, 218, 185, 0.75) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(246, 178, 148, 0.55) 0%, transparent 55%),
+    radial-gradient(circle at 50% 12%, rgba(255, 238, 215, 0.45) 0%, transparent 60%);
+}
+
+body.theme-sunset .hero-feature-card {
+  background-color: rgba(255, 250, 245, 0.85);
+  border-color: #ebd6c6;
+}
+
+body.theme-sunset .hero-feature-card:hover {
+  background-color: rgba(255, 250, 245, 0.98);
+  border-color: #debfa9;
+}
+
+body.theme-sunset .scenery-caption {
+  background-color: rgba(255, 249, 242, 0.96);
+  border-top-color: #ebd6c6;
+}
+
+body.theme-sunset .chat-console-header,
+body.theme-sunset .quick-prompt-chip,
+body.theme-sunset .chat-msg.barnaby-msg .msg-bubble {
+  background-color: #fffaf5;
+  border-color: #ebd6c6;
+}
+
+body.theme-sunset .chat-quick-prompts-bar {
+  background-color: #f8eee4;
+  border-bottom-color: #ebd6c6;
+}
+
+body.theme-sunset .chat-msg.user-msg .msg-bubble {
+  background-color: #f7e6d8;
+  border-color: #dfc2ad;
+}
+
+body.theme-sunset .grc-pillar-card,
+body.theme-sunset .frameworks-reference-box,
+body.theme-sunset .framework-card {
+  background-color: #fffaf5;
+  border-color: #ebd6c6;
+}
+
+body.theme-sunset .crisis-story-text {
+  background-color: rgba(248, 232, 220, 0.45);
+  border-left-color: #d8bda7;
+}
+
+/* =========================================================
+   🌧️ FULL-PAGE LOFI RAIN ATMOSPHERE (Cozy Overcast Slate & Misty Pine)
+   ========================================================= */
+body.theme-rain {
+  --bg-sage: #c2d3d4;
+  --bg-sage-light: #d6e3e4;
+  --bg-sage-dark: #a5bdbe;
+  --card-cream: #f4f8f8;
+  --card-cream-dark: #e6eeee;
+  --text-primary: #1e3338;
+  --text-secondary: #405c62;
+  --text-muted: #648187;
+  --coral-btn: #d9755f;
+  --coral-btn-hover: #c46049;
+  --coral-btn-active: #ab4f3a;
+  --pill-bg: #d7e5e6;
+  --pill-border: #b8cbd0;
+  --border-light: #cadbde;
+
+  background-color: var(--bg-sage);
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(240, 248, 255, 0.7) 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(186, 210, 214, 0.55) 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(195, 220, 222, 0.35) 0%, transparent 65%);
+}
+
+body.theme-rain .hero-feature-card {
+  background-color: rgba(244, 248, 248, 0.85);
+  border-color: #cadbde;
+}
+
+body.theme-rain .hero-feature-card:hover {
+  background-color: rgba(244, 248, 248, 0.98);
+  border-color: #b8cbd0;
+}
+
+body.theme-rain .scenery-caption {
+  background-color: rgba(234, 242, 239, 0.96);
+  border-top-color: #cadbde;
+}
+
+body.theme-rain .chat-console-header,
+body.theme-rain .quick-prompt-chip,
+body.theme-rain .chat-msg.barnaby-msg .msg-bubble {
+  background-color: #f6fafa;
+  border-color: #cadbde;
+}
+
+body.theme-rain .chat-quick-prompts-bar {
+  background-color: #eaf1f2;
+  border-bottom-color: #cadbde;
+}
+
+body.theme-rain .chat-msg.user-msg .msg-bubble {
+  background-color: #dfebee;
+  border-color: #b8cbd0;
+}
+
+body.theme-rain .grc-pillar-card,
+body.theme-rain .frameworks-reference-box,
+body.theme-rain .framework-card {
+  background-color: #f6fafa;
+  border-color: #cadbde;
+}
+
+body.theme-rain .crisis-story-text {
+  background-color: rgba(215, 230, 232, 0.45);
+  border-left-color: #a5bdbe;
+}
+
 
 /* Header & Top Navigation (Quiet Place style) */
 .site-header {
@@ -1190,6 +1359,63 @@ body {
   background: var(--coral-btn);
   color: #ffffff;
   border-color: var(--coral-btn-hover);
+}
+
+/* Weather Revert Buttons */
+.weather-revert-btn {
+  background: var(--card-cream) !important;
+  color: var(--coral-btn) !important;
+  border: 1.5px dashed var(--coral-btn) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 700;
+  animation: revertPillPulse 2.5s infinite ease-in-out;
+  cursor: pointer;
+}
+
+.weather-revert-btn:hover {
+  background: var(--coral-btn) !important;
+  color: #ffffff !important;
+  border-style: solid !important;
+  transform: translateY(-1px);
+}
+
+@keyframes revertPillPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(224, 122, 95, 0);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 2px 10px rgba(224, 122, 95, 0.28);
+  }
+}
+
+/* Header Weather Revert Quick Button */
+.header-weather-revert {
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: var(--card-cream);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-sans);
+  animation: fadeIn 0.3s ease;
+}
+
+.header-weather-revert:hover {
+  border-color: var(--coral-btn);
+  color: var(--coral-btn);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 /* Floating Metric Score Bursts */

@@ -235,6 +235,52 @@ class CozyAudioManager {
         osc.start();
         osc.stop(this.ctx.currentTime + 0.08);
     }
+
+    // Cozy warm sunset chime (soft major chord)
+    playWarmChime() {
+        if (this.isMuted) return;
+        this.initContext();
+        if (!this.ctx) return;
+
+        const notes = [329.63, 415.30, 493.88]; // E4, G#4, B4 warm chord
+        const now = this.ctx.currentTime;
+        notes.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+            gain.gain.setValueAtTime(0.001, now + idx * 0.07);
+            gain.gain.linearRampToValueAtTime(0.04, now + idx * 0.07 + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.45);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now + idx * 0.07);
+            osc.stop(now + idx * 0.07 + 0.45);
+        });
+    }
+
+    // Gentle morning breeze chime (crisp high chord)
+    playMorningBreeze() {
+        if (this.isMuted) return;
+        this.initContext();
+        if (!this.ctx) return;
+
+        const notes = [440.00, 554.37, 659.25]; // A4, C#5, E5 crisp morning chord
+        const now = this.ctx.currentTime;
+        notes.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+            gain.gain.setValueAtTime(0.001, now + idx * 0.06);
+            gain.gain.linearRampToValueAtTime(0.035, now + idx * 0.06 + 0.04);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.4);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now + idx * 0.06);
+            osc.stop(now + idx * 0.06 + 0.4);
+        });
+    }
 }
 
 window.audioManager = new CozyAudioManager();

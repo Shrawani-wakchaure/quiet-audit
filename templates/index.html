@@ -27,6 +27,10 @@
       </ul>
     </nav>
     <div class="header-actions">
+      <button class="header-weather-revert" id="headerWeatherRevertBtn" title="Revert whole page back to Morning Calm" style="display: none;">
+        <span>☀️</span>
+        <span>Revert to Morning</span>
+      </button>
       <button class="btn-icon" id="soundToggleBtn" title="Toggle Sound Effects" aria-label="Toggle Sound">
         <span id="soundIcon">🔊</span>
       </button>
@@ -86,9 +90,10 @@
                 <span>🌾 SnoozeCloud Security Lake</span> &bull; <span>Where Barnaby monitors audit trails in peace</span>
               </div>
               <div class="scenery-weather-picker">
-                <button class="weather-btn active" data-weather="morning" title="Morning Calm">☀️ Morning</button>
-                <button class="weather-btn" data-weather="sunset" title="Golden Sunset">🌅 Sunset</button>
-                <button class="weather-btn" data-weather="rain" title="Lofi Rain">🌧️ Lofi Rain</button>
+                <button class="weather-btn active" data-weather="morning" title="Morning Calm (Default) — Click to reset page theme">☀️ Morning</button>
+                <button class="weather-btn" data-weather="sunset" title="Golden Sunset — Transform whole page to warm sunset dusk">🌅 Sunset</button>
+                <button class="weather-btn" data-weather="rain" title="Lofi Rain — Transform whole page to cozy misty rain">🌧️ Lofi Rain</button>
+                <button class="weather-btn weather-revert-btn" id="weatherRevertBtn" data-weather="morning" title="Revert back to Morning Calm" style="display: none;">↺ Revert to Morning</button>
               </div>
             </div>
           </div>

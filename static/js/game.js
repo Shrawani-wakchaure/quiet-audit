@@ -971,13 +971,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Ambient Floating Particles (Cozy Leaves & Sparkles)
-  function spawnAmbientParticles() {
+  // Ambient Floating Particles (Cozy Leaves, Sparkles, or Raindrops based on weather)
+  function spawnAmbientParticles(theme = 'morning') {
     if (!ambientParticles) return;
     ambientParticles.innerHTML = '';
 
-    const particleSymbols = ['🍃', '🍂', '✨', '☁️', '🌸', '🌱'];
-    const count = 14;
+    let particleSymbols = ['🍃', '🍂', '✨', '☁️', '🌸', '🌱'];
+    if (theme === 'sunset') {
+      particleSymbols = ['🍂', '✨', '🌅', '🍁', '🌾', '💫'];
+    } else if (theme === 'rain') {
+      particleSymbols = ['💧', '🌧️', '🫧', '🍃', '🌱', '✨'];
+    }
+
+    const count = 16;
 
     for (let i = 0; i < count; i++) {
       const span = document.createElement('span');
@@ -992,34 +998,107 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================
-  // INTERACTIVE WEATHER MOODS & SCENERY EFFECTS
+  // INTERACTIVE WEATHER MOODS & FULL-PAGE ATMOSPHERE EFFECTS
   // =========================================================
   const pixelSceneryFrame = document.getElementById('pixelSceneryFrame');
   const sceneryRainLayer = document.getElementById('sceneryRainLayer');
-  const weatherBtns = document.querySelectorAll('.weather-btn');
+  const weatherBtns = document.querySelectorAll('.weather-btn:not(.weather-revert-btn)');
+  const weatherRevertBtn = document.getElementById('weatherRevertBtn');
+  const headerWeatherRevertBtn = document.getElementById('headerWeatherRevertBtn');
+
+  function setWeatherTheme(weather, playSound = true) {
+    const currentTheme = document.body.classList.contains('theme-sunset')
+      ? 'sunset'
+      : (document.body.classList.contains('theme-rain') ? 'rain' : 'morning');
+
+    // Toggle back to morning if user re-clicks the currently active theme
+    let targetWeather = weather;
+    if (currentTheme === weather && weather !== 'morning') {
+      targetWeather = 'morning';
+    }
+
+    // Reset base classes
+    document.body.classList.remove('theme-sunset', 'theme-rain');
+    if (pixelSceneryFrame) {
+      pixelSceneryFrame.classList.remove('theme-sunset', 'theme-rain');
+    }
+
+    // Update active button state in the weather picker
+    document.querySelectorAll('.weather-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.weather === targetWeather);
+    });
+
+    if (targetWeather === 'sunset') {
+      document.body.classList.add('theme-sunset');
+      if (pixelSceneryFrame) pixelSceneryFrame.classList.add('theme-sunset');
+      
+      if (sceneryRainLayer) sceneryRainLayer.innerHTML = '';
+      if (weatherRevertBtn) weatherRevertBtn.style.display = 'inline-flex';
+      if (headerWeatherRevertBtn) headerWeatherRevertBtn.style.display = 'inline-flex';
+
+      spawnAmbientParticles('sunset');
+      if (playSound) {
+        if (window.audioManager && window.audioManager.playWarmChime) {
+          window.audioManager.playWarmChime();
+        }
+        spawnScoreBurst('🌅 Sunset Atmosphere Applied', true, window.innerWidth / 2 - 110, 80);
+      }
+      localStorage.setItem('quiet_audit_weather', 'sunset');
+    } else if (targetWeather === 'rain') {
+      document.body.classList.add('theme-rain');
+      if (pixelSceneryFrame) pixelSceneryFrame.classList.add('theme-rain');
+      
+      spawnRainDrops();
+      if (weatherRevertBtn) weatherRevertBtn.style.display = 'inline-flex';
+      if (headerWeatherRevertBtn) headerWeatherRevertBtn.style.display = 'inline-flex';
+
+      spawnAmbientParticles('rain');
+      if (playSound) {
+        if (window.audioManager && window.audioManager.playWaterDrop) {
+          window.audioManager.playWaterDrop();
+        }
+        spawnScoreBurst('🌧️ Lofi Rain Atmosphere Applied', true, window.innerWidth / 2 - 110, 80);
+      }
+      localStorage.setItem('quiet_audit_weather', 'rain');
+    } else {
+      // Morning Calm (Default)
+      if (sceneryRainLayer) sceneryRainLayer.innerHTML = '';
+      if (weatherRevertBtn) weatherRevertBtn.style.display = 'none';
+      if (headerWeatherRevertBtn) headerWeatherRevertBtn.style.display = 'none';
+
+      spawnAmbientParticles('morning');
+      if (playSound) {
+        if (window.audioManager && window.audioManager.playMorningBreeze) {
+          window.audioManager.playMorningBreeze();
+        }
+        spawnScoreBurst('☀️ Reverted to Morning Calm', true, window.innerWidth / 2 - 110, 80);
+      }
+      localStorage.setItem('quiet_audit_weather', 'morning');
+    }
+  }
 
   function initSceneryEffects() {
     weatherBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        window.audioManager.playClick();
-        weatherBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const weather = btn.dataset.weather;
-        if (!pixelSceneryFrame) return;
-
-        pixelSceneryFrame.classList.remove('theme-sunset', 'theme-rain');
-
-        if (weather === 'sunset') {
-          pixelSceneryFrame.classList.add('theme-sunset');
-        } else if (weather === 'rain') {
-          pixelSceneryFrame.classList.add('theme-rain');
-          spawnRainDrops();
-          window.audioManager.playWaterDrop();
-        }
+        setWeatherTheme(btn.dataset.weather, true);
       });
     });
+
+    // Option to go back!
+    if (weatherRevertBtn) {
+      weatherRevertBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setWeatherTheme('morning', true);
+      });
+    }
+
+    if (headerWeatherRevertBtn) {
+      headerWeatherRevertBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setWeatherTheme('morning', true);
+      });
+    }
 
     // Clicking scenery triggers water drop sound
     if (pixelSceneryFrame) {
@@ -1035,6 +1114,12 @@ document.addEventListener('DOMContentLoaded', () => {
         window.audioManager.playPurr();
       });
     });
+
+    // Load saved weather preference
+    const savedWeather = localStorage.getItem('quiet_audit_weather');
+    if (savedWeather && (savedWeather === 'sunset' || savedWeather === 'rain')) {
+      setWeatherTheme(savedWeather, false);
+    }
   }
 
   function spawnRainDrops() {
